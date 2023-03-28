@@ -1,0 +1,59 @@
+version: '3.9'
+
+networks:
+  network1:
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    restart: always
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - php
+      - db
+    networks:
+      - network1
+
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    ports:
+      - ":9000"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - network1
+
+  db:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: '%'
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - network1
+
+  composer:
+    image: composer
+    container_name: composer
+    working_dir: /var/www/html
+    depends_on:
+      - php
+    networks:
+      - network1
