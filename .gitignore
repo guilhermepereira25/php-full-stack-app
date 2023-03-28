@@ -48,5 +48,5 @@ Thumbs.db
 *.mov
 *.wmv
 
-/docker/mysql/*
+/docker/mysql/
 /docker/logs/*
