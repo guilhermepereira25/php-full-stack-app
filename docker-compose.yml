@@ -50,8 +50,13 @@ services:
       - network1
 
   composer:
-    image: composer
+    build:
+      context: ./docker/composer
+      dockerfile: Dockerfile
     container_name: composer
+    volumes:
+      - ./src:/var/www/html
+      - .env:/var/www/html/.env
     working_dir: /var/www/html
     depends_on:
       - php
