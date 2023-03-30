@@ -48,10 +48,5 @@ Thumbs.db
 *.mov
 *.wmv
 
-<<<<<<< HEAD
 /docker/mysql/
 /docker/logs/*
-=======
-./docker/mysql/*
-./docker/logs/
->>>>>>> parent of cc9c8e9 (composer fix)
