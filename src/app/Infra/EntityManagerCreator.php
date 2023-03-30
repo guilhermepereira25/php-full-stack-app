@@ -4,17 +4,15 @@ namespace Application\Source\Infra;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\ORMSetup;
+use RuntimeException;
 
 class EntityManagerCreator
 {
-    /**
-     * @throws MissingMappingDriverImplementation
-     */
     public function getEntityManager(): EntityManager
     {
-        $paths = [__DIR__ . '/../Entity'];
+        $paths = [__DIR__ . '/../Models'];
 
         //using docker params in .env
         $dbParams = [
@@ -29,13 +27,10 @@ class EntityManagerCreator
         try {
             $config = ORMSetup::createAttributeMetadataConfiguration($paths);
             $connection = DriverManager::getConnection($dbParams, $config);
-        } catch (\Throwable $th) {
-            echo json_encode([
-                'message' => $th->getMessage(),
-                'code' => $th->getCode()
-            ]);
-        }
 
-        return new EntityManager($connection, $config);
+            return new EntityManager($connection, $config);
+        } catch (ORMException $ex) {
+            throw new RuntimeException('Fail in connecting with db'. PHP_EOL . $ex->getMessage(), $ex->getCode());
+        }
     }
 }
