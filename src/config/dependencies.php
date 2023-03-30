@@ -12,7 +12,7 @@ $builder->addDefinitions([
 ]);
 
 try {
-    return $container = $builder->build();
+    return $builder->build();
 } catch (Exception $e) {
-    var_dump($e);
+    throw new \RuntimeException('Fail build container' . PHP_EOL . $e->getMessage(), $e->getCode());
 }
