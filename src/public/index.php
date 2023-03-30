@@ -2,17 +2,12 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7Server\ServerRequestCreator;
+use Application\Source\Psr17\Psr7FactoryCreator;
 
 phpinfo();
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->safeLoad();
-
-$test = $_ENV['DB_HOST'];
-
-var_dump($test, $dotenv);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 //$routes = require __DIR__ . '/../config/routes.php';
 //
@@ -23,16 +18,8 @@ var_dump($test, $dotenv);
 
 //session_start();
 
-$psr17Factory = new Psr17Factory();
-
-$creator = new ServerRequestCreator(
-    $psr17Factory,
-    $psr17Factory,
-    $psr17Factory,
-    $psr17Factory
-);
-
-$serverRequest = $creator->fromGlobals();
+$factory = new Psr7FactoryCreator();
+$serverRequest = $factory->createServerRequest();
 
 $class = $_SERVER['REQUEST_URI'];
 $container = require __DIR__ . '/../config/dependencies.php';

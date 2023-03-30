@@ -11,7 +11,12 @@ class EntityManagerCreator
 
         //using docker params
         $dbParams = [
-            'host' => 'AAA'
+            'host' => $_ENV['DB_HOST'],
+            'user' => $_ENV['DB_USERNAME'],
+            'password' => '',
+            'dbname' => 'product',
+            'charset' => 'UTF8',
+            'driver' => 'pdo_mysql'
         ];
     }
 }

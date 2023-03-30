@@ -11,7 +11,7 @@ services:
     restart: always
     container_name: nginx
     ports:
-      - "80:80"
+      - "8080:8080"
     volumes:
       - ./src:/var/www/html
     depends_on:
@@ -58,6 +58,7 @@ services:
       - ./src:/var/www/html
       - .env:/var/www/html/.env
     working_dir: /var/www/html
+    entrypoint: ['composer', '--ignore-platform-reqs']
     depends_on:
       - php
     networks:

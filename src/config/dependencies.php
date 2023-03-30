@@ -10,6 +10,9 @@ $builder->addDefinitions([
         return (new EntityManagerCreator)->getEntityManager();
     }
 ]);
-$container = $builder->build();
 
-return $container;
+try {
+    return $container = $builder->build();
+} catch (Exception $e) {
+    var_dump($e);
+}
