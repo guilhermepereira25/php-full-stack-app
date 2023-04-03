@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Source\Psr17;
+namespace Application\Source\Http\Factorys;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
