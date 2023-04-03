@@ -11,6 +11,6 @@ class ProductController implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new Response(200, [], phpinfo());
+        return new Response(200, [], 'Olá :)');
     }
 }
