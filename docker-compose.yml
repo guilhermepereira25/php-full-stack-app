@@ -11,9 +11,9 @@ services:
     restart: always
     container_name: nginx
     ports:
-      - "8080:8080"
+      - "80:80"
     volumes:
-      - ./src:/var/www/html
+      - ./backend:/var/www/html
     depends_on:
       - php
       - db
@@ -27,7 +27,7 @@ services:
     ports:
       - ":9000"
     volumes:
-      - ./src:/var/www/html
+      - ./backend:/var/www/html
     networks:
       - network1
 
@@ -55,7 +55,7 @@ services:
       dockerfile: Dockerfile
     container_name: composer
     volumes:
-      - ./src:/var/www/html
+      - ./backend:/var/www/html
       - .env:/var/www/html/.env
     working_dir: /var/www/html
     entrypoint: ['composer', '--ignore-platform-reqs']

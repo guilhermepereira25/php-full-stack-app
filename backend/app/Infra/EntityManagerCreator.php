@@ -18,7 +18,7 @@ class EntityManagerCreator
         $dbParams = [
             'host' => $_ENV['DB_HOST'],
             'user' => $_ENV['DB_USERNAME'],
-            'password' => '',
+            'password' => $_ENV['DB_PASSWORD'],
             'dbname' => $_ENV['DB_DATABASE'],
             'charset' => 'UTF8',
             'driver' => 'pdo_mysql'
