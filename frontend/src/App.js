@@ -1,51 +1,17 @@
-import { useState } from "react";
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Index from './pages/Index/Index';
+import Update from './pages/Update/Update';
+import Create from './pages/Add/Create';
 import "./App.css";
 
-function App() {
-	const [name, setName] = useState("");
-	const [result, setResult] = useState("");
-
-	const handleChange = (e) => {
-		setName(e.target.value);
-	};
-
-	const handleSumbit = (e) => {
-		e.preventDefault();
-		const form = e.target.action
-
-		fetch(form, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ name })
-		})
-		.then(response => response.json)
-		.then(data => console.log(data))
-		.catch(error => console.error(error))
-	};
-
+export default function App() {
 	return (
-		<div className="App">
-			<form
-				action="http://localhost:80/"
-				method="post"
-				onSubmit={(event) => handleSumbit(event)}
-			>
-				<label htmlFor="name">Name: </label>
-				<input
-					type="text"
-					id="name"
-					name="name"
-					value={name}
-					onChange={(event) => handleChange(event)}
-				/>
-				<br />
-				<button type="submit">Submit</button>
-			</form>
-			<h1>{result}</h1>
-		</div>
-	);
+		<Router>
+			<Routes>
+				<Route exact path="/" element={ <Index /> } />
+				<Route exact path="/update" element={ <Update /> } />
+				<Route exact path="/add" element={ <Create /> } />
+			</Routes>
+		</Router>
+	)
 }
-
-export default App;
