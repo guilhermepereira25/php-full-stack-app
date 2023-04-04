@@ -22,18 +22,37 @@ class ProductController
     {
         $data = [
             'response' => 'ok',
-            'request' => $request->getHeaders()
+            'data' => 'content'
         ];
-    
+
         $json = json_encode($data);
-    
+
         $headers = [
             'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE',
+            'Access-Control-Allow-Methods' => 'GET',
             'Access-Control-Allow-Headers' => 'Content-Type',
             'Content-Type' => 'application/json',
         ];
-    
+
         return new Response(200, $headers, Stream::create($json));
+    }
+
+    public function create(ServerRequestInterface $request): ResponseInterface
+    {
+
+    }
+
+    public function update(ServerRequestInterface $request): ResponseInterface
+    {
+        $headers = $request->getHeaders();
+
+        $request = json_encode($request->getQueryParams());
+
+        return new Response(200, [], Stream::create($request));
+    }
+
+    public function delete(ServerRequestInterface $request): ResponseInterface
+    {
+
     }
 }

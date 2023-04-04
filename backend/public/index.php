@@ -9,7 +9,9 @@ $dotenv->load();
 
 $routes = require __DIR__ . '/../config/api.php';
 
-if (!array_key_exists($_SERVER['REQUEST_URI'], $routes)) {
+$urlParsed = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if (!array_key_exists($urlParsed, $routes)) {
     http_response_code(404);
     die();
 }
@@ -17,11 +19,11 @@ if (!array_key_exists($_SERVER['REQUEST_URI'], $routes)) {
 $factory = new Psr7FactoryCreator();
 $serverRequest = $factory->createServerRequest();
 
-$class = $routes[$_SERVER['REQUEST_URI']]['controller'];
+$class = $routes[$urlParsed]['controller'];
 $container = require __DIR__ . '/../config/dependencies.php';
 $controller = $container->get($class);
 
-$method = $routes[$_SERVER['REQUEST_URI']]['method'];
+$method = $routes[$urlParsed]['method'];
 $response = $controller->$method($serverRequest);
 
 foreach ($response->getHeaders() as $name => $values) {
