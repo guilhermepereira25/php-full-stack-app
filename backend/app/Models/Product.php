@@ -3,21 +3,15 @@
 namespace Application\Source\Models;
 
 use Application\Source\Abstract\BaseProduct;
+use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
 
-/**
- * @Entity
- * @Table(name="product")
- */
+#[Entity]
 class Product extends BaseProduct
 {
-    private int $id;
-    private string $sku;
-    private string $name;
-    private float $price;
-    private string $type;
-    private string $value;
-
+    #[Id, Column]
+    protected int $id;
     public function getId(): int
     {
         return $this->id;

@@ -1,6 +1,9 @@
 <?php
 
+use Application\Source\Http\Controllers\ProductController;
+
 return [
     //routes here
-    '/' => \Application\Source\Http\Controllers\ProductController::class
+    '/products' => ['controller' => ProductController::class, 'method' => 'index'],
+
 ];

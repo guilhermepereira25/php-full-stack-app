@@ -2,19 +2,27 @@
 
 namespace Application\Source\Http\Controllers;
 
+use Application\Source\Models\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
-class ProductController implements RequestHandlerInterface
+class ProductController
 {
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    private $repository;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->repository = $entityManager->getRepository(Product::class);
+    }
+
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
         $data = [
             'response' => 'ok',
-            'request' => $request->getParsedBody()
+            'request' => $request->getHeaders()
         ];
     
         $json = json_encode($data);
@@ -28,5 +36,4 @@ class ProductController implements RequestHandlerInterface
     
         return new Response(200, $headers, Stream::create($json));
     }
-    
 }
