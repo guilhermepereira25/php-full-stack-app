@@ -1,5 +1,13 @@
 import React from 'react';
 import { useState } from "react";
+import Header from "../../components/Header";
+import { Link } from "react-router-dom";
+
+function MyButton(props) {
+	return (
+		<Link to={props.to} className="btn btn-primary">{props.text}</Link>
+	)
+}
 
 export default function Index() {
 	const [name, setName] = useState("");
@@ -9,7 +17,7 @@ export default function Index() {
 		setName(e.target.value);
 	};
 
-	const handleSumbit = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		const action = e.target.action
 
@@ -26,11 +34,13 @@ export default function Index() {
 	};
 
 	return (
-		<div className="App">
+		<>
+			<Header />
+
 			<form
-				action="http://localhost:80/products"
+				action="http://localhost:80/api/products"
 				method="post"
-				onSubmit={(event) => handleSumbit(event)}
+				onSubmit={(event) => handleSubmit(event)}
 			>
 				<label htmlFor="name">Name: </label>
 				<input
@@ -44,6 +54,8 @@ export default function Index() {
 				<button type="submit">Submit</button>
 			</form>
 			<h1>{result}</h1>
-		</div>
+
+			<MyButton to="/add" text="Add new product" />
+		</>
 	);
 }
