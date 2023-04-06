@@ -1,8 +1,8 @@
 <?php
 
-use Doctrine\ORM\EntityManagerInterface;
-use Application\Source\Infra\EntityManagerCreator;
+use Application\Source\Repository\EntityManagerCreator;
 use DI\ContainerBuilder;
+use Doctrine\ORM\EntityManagerInterface;
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions([
