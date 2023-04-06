@@ -1,42 +1,47 @@
-## Instructions to build the application using docker 
+## Instructions to Build and Run the Application Using Docker
 
-**Please, certified that you have docker compose installed**
+To build and run the application using Docker, please follow the steps below:
 
-In the root folder run this command
+### Prerequisites
+Docker and Docker Compose should be installed on your machine.
+
+### Build and Run the Application
+1. Open your terminal and navigate to the root folder of the application.
+
+2. Run the following command to build and run the Docker images:
 
 <code> docker compose up --build nginx -d </code>
 
-Now we have the docker images running 
+This command will build and run the Docker images and start the containers in the background.
 
-The nginx is acessible and running on port 80
+3. Verify that the Nginx web server is accessible by visiting http://localhost in your browser. If you see the Nginx welcome page, it means that the server is up and running.
 
-PHP-FPM not acessible running in port 9000
+4. Verify that the PHP-FPM is running on port 9000 by visiting http://localhost:9000 in your browser. If you see a blank page or an error message, it means that the PHP-FPM is running properly.
 
-**MySQL** is running on localhost:3306
+5. The MySQL database is running on localhost:3306. The database credentials are:
 
-DB_USER = user <br>
-DB_PASSWORD = user <br>
+```
+	DB_USER = user <br>
+	DB_PASSWORD = user <br>
+```
 
-This has to be setup up in the .env in your backend folder
+You can modify these credentials in the `.env` file located in the backend folder.
 
----
+6. Run the frontend of the application using the following command in the terminal:
 
-## Run the frontend
+```
+	npm start
+```
 
-<code> npm start </code>
 
-Run the application on localhost:3000, you can know more about it in README.MD file in the frontend folder
+This command will start the frontend on http://localhost:3000.
 
-**Remember to run the frontend you have to install nodejs**
+7. Install composer dependencies by running the following command in the terminal:
 
----
+```
+	docker compose run composer install
+```
 
-## Install composer dependecies
+This command will install the dependencies listed in the `composer.json` file.
 
-Composer is running in the docker image
-
-To install the dependecies in composer.json file you need to
-
-<code> docker compose run composer install </code>
-
-Now, you are free to go
+You can now start using the application.
