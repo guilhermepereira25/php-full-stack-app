@@ -1,16 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import Header from "../../components/Header";
 
 const handleSubmit = (e) => {
     e.preventDefault()
     const action = e.target.action
+    const price = e.target.value
 
     fetch(action, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name })
+        body: JSON.stringify({ price })
     })
         .then(response => response.json())
         .then(data => console.log(data.response))
@@ -18,11 +19,13 @@ const handleSubmit = (e) => {
 }
 
 function MyForm(props) {
+    const price = useState("")
+
     return (
         <form action={props.action} method="POST" onSubmit={(event) => handleSubmit(event)}>
             <div className="mb-3">
-                <label for="name" className="form-label">{props.labelOne}</label>
-                <input type="text" className="form-control" id="name"/>
+                <label htmlFor="price" className="form-label">{props.labelOne}</label>
+                <input type="number" name="name" className="form-control" id="price" value={price}/>
                 <div className="form-text">Ok, beleza?</div>
             </div>
         </form>
