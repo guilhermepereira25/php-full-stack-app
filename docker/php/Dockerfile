@@ -31,4 +31,9 @@ RUN set -eux; \
     docker-php-ext-install gd; \
     php -r 'var_dump(gd_info());'
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY ./xdebug.ini "/usr/local/etc/php/conf.d"
+
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
