@@ -9,7 +9,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 
 class ProductTest extends TestCase
 {
-    private $baseUrl = 'http://172.20.0.1:80/api/products/create';
+    private $baseUrl = 'http://172.18.0.1:80/api/products/create';
 
     /**
      * @throws ClientExceptionInterface
@@ -49,5 +49,26 @@ class ProductTest extends TestCase
         $this->assertEquals(10.2, $post['price']);
         $this->assertEquals('book', $post['type']);
         $this->assertEquals(2.5, $post['value']);
+    }
+
+    public function test_invalid_fields()
+    {
+        $serverRequest = new Psr17Factory();
+        $psr18Client = new Curl($serverRequest);
+
+        $data = [
+            'sku' => 'SKU20490294042',
+            'name' => 'Teste',
+            'price' => (float) 10.2,
+            'type' => 'anyway',
+            'value' => (float) 2.5
+        ];
+
+        $body = http_build_query($data);
+        $request = $serverRequest->createRequest("POST", $this->baseUrl)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody($serverRequest->createStream($body));
+        $response = $psr18Client->sendRequest($request);
+        $this->assertEquals(403, $response->getStatusCode(), 'Status code is not 403');
     }
 }

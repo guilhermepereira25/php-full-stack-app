@@ -13,10 +13,6 @@ abstract class BaseProduct
     protected string $name;
     protected float $price;
     protected string $type;
-    protected string $value;
+    protected float $value;
 
-    abstract protected function createNewProduct();
-    abstract protected function getAllProducts();
-    abstract protected function updateProduct();
-    abstract protected function deleteProduct();
 }

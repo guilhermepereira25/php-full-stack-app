@@ -17,6 +17,7 @@ class ProductController
 {
     private EntityRepository $repository;
     private ProductRepository $productRepository;
+    private int $code;
 
     public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository)
     {
@@ -28,7 +29,7 @@ class ProductController
     {
         $data = $this->repository->findAll();
 
-        return new Response(200, ['Content-Type', 'application/json'], Stream::create($data));
+        return new Response(200, ['Content-Type', 'application/json'], Stream::create(json_encode($data)));
     }
 
     /**
@@ -39,7 +40,7 @@ class ProductController
     public function create(ServerRequestInterface $request): ResponseInterface
     {
         if ($request->getMethod() !== 'POST') {
-            $code = http_response_code(405);
+            $this->setCode(405);
             $body = Stream::create(json_encode(['success' => false]));
         } else {
             $post = $request->getParsedBody();
@@ -48,18 +49,22 @@ class ProductController
             $validate = $form->validate($post);
 
             if ($validate) {
-                $resultSet = $this->productRepository->create(
-                    $post['sku'], $post['nome'], $post['price'], $post['type'], $post['value']
-                );
-                $code = http_response_code(200);
-                $body = Stream::create(json_encode($resultSet));
+                $sku = $this->repository->findOneBy(['sku' => $post['sku']]);
+
+                if (is_null($sku)) {
+                    $resultSet = $this->productRepository->create(
+                        $post['sku'], $post['nome'], $post['price'], $post['type'], $post['value']
+                    );
+                    $this->setCode(201);
+                    $body = Stream::create(json_encode($resultSet));
+                }
             } else {
-                $code = http_response_code(403);
+                $this->setCode(403);
                 $body = Stream::create(json_encode(['success' => false, 'message' => 'invalid parameters']));
             }
         }
 
-        return new Response($code, ['Content-Type' => 'application/json'], $body);
+        return new Response($this->getCode(), ['Content-Type' => 'application/json'], $body);
     }
 
     public function update(ServerRequestInterface $request): ResponseInterface
@@ -81,5 +86,15 @@ class ProductController
         }
 
         return new Response($code, ['Content-Type' => 'application/json'], is_null($body) ? Stream::create(json_encode(['success' => false ])) : $body);
+    }
+
+    private function setCode($code)
+    {
+        $this->code = http_response_code($code);
+    }
+
+    private function getCode()
+    {
+        return $this->code;
     }
 }

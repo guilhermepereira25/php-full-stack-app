@@ -3,15 +3,30 @@
 namespace Application\Source\Models;
 
 use Application\Source\Abstract\BaseProduct;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 
 #[Entity]
-class Product extends BaseProduct
+#[Table(name: 'product')]
+class Product extends BaseProduct implements \JsonSerializable
 {
-    #[Id, Column]
+    #[Id, Column, GeneratedValue]
     protected int $id;
+    #[Column]
+    protected string $sku;
+    #[Column]
+    protected string $name;
+    #[Column(type: Types::DECIMAL)]
+    protected float $price;
+    #[Column]
+    protected string $type;
+    #[Column(type: Types::FLOAT)]
+    protected float $value;
+
     public function getId(): int
     {
         return $this->id;
@@ -72,23 +87,15 @@ class Product extends BaseProduct
        $this->value = $value;
    }
 
-    protected function createNewProduct()
+    public function jsonSerialize(): mixed
     {
-        // TODO: Implement createNewProduct() method.
-    }
-
-    protected function getAllProducts()
-    {
-        // TODO: Implement getAllProducts() method.
-    }
-
-    protected function updateProduct()
-    {
-        // TODO: Implement updateProduct() method.
-    }
-
-    protected function deleteProduct()
-    {
-        // TODO: Implement deleteProduct() method.
+        return [
+            'id' => $this->getId(),
+            'sku' => $this->getSku(),
+            'name' => $this->getName(),
+            'price' => $this->getPrice(),
+            'type' => $this->getType(),
+            'value' => $this->getValue()
+        ];
     }
 }
