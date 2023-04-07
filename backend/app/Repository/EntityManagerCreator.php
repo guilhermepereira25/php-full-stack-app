@@ -17,6 +17,7 @@ class EntityManagerCreator
         //using docker params in .env
         $dbParams = [
             'host' => $_ENV['DB_HOST'],
+            'port' => $_ENV['DB_PORT'],
             'user' => $_ENV['DB_USERNAME'],
             'password' => $_ENV['DB_PASSWORD'],
             'dbname' => $_ENV['DB_DATABASE'],
@@ -25,7 +26,7 @@ class EntityManagerCreator
         ];
 
         try {
-            $config = ORMSetup::createAttributeMetadataConfiguration($paths);
+            $config = ORMSetup::createAttributeMetadataConfiguration($paths, false);
             $connection = DriverManager::getConnection($dbParams, $config);
 
             return new EntityManager($connection, $config);

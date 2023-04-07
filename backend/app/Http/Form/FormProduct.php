@@ -12,17 +12,22 @@ class FormProduct
         'value' => 'required'
     ];
 
-    public function validate(array $args)
+    public function validate(array $args): bool
     {
         $errors = 0;
         $rules = $this->getRules();
 
         foreach ($rules as $item => $rule) {
-            $value = $args[$item] ?? '';
+            $value = null;
+            if (array_key_exists($item, $args)) {
+                $value = $args[$item];
+                unset($args[$item]);
+                break;
+            }
 
             switch ($rule) {
                 case 'required':
-                    if (empty($value)) {
+                    if (is_null($value)) {
                         $errors++;
                     }
                     break;
@@ -32,7 +37,7 @@ class FormProduct
             }
         }
 
-        return $errors;
+        return $errors === 0;
     }
 
     private function getRules()
