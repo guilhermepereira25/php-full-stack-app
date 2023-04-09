@@ -29,7 +29,7 @@ class ProductController
     {
         $data = $this->repository->findAll();
 
-        return new Response(200, ['Content-Type', 'application/json'], Stream::create(json_encode($data)));
+        return new Response(200, ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*'], Stream::create(json_encode($data)));
     }
 
     /**

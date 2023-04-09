@@ -9,7 +9,8 @@ use Psr\Http\Client\ClientExceptionInterface;
 
 class ProductTest extends TestCase
 {
-    private $baseUrl = 'http://172.18.0.1:80/api/products/create';
+    //nginx is host inside docker
+    private $baseUrl = 'http://nginx:80/api/products/create';
 
     /**
      * @throws ClientExceptionInterface

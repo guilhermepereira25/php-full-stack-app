@@ -42,7 +42,7 @@ class FormProduct
         return $errors === 0;
     }
 
-    private function switchCaseRules($rule, $value)
+    private function switchCaseRules($rule, $value): bool
     {
         $hasError = false;
 
