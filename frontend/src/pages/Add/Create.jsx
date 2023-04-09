@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 const handleSubmit = (e) => {
     e.preventDefault()
@@ -38,6 +39,8 @@ export default function Create() {
             <Header />
 
             <MyForm action="http://localhost:80/api/products/create" labelOne="Seu nome aqui" />
+
+            <Footer />
         </div>
     )
 }

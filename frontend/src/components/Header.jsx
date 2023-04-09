@@ -1,28 +1,28 @@
 import React from "react";
-
-
-function Text(props) {
-    return (
-        <>
-            <p className="text-uppercase">{ props.text }</p>
-        </>
-    )
-}
+import {Link} from "react-router-dom";
+import DeleteButton from "./Button";
 
 export default function Header() {
-    return(
-        <div className="container text-center">
-            <div className="row align-content-between">
-                <div className="col">
-                    <Text text="Teste props" />
-                </div>
-                <div className="col">
-                    <Text text="Teste props" />
-                </div>
-                <div className="col">
-                    <Text text="Teste props" />
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container-fluid">
+                <span className="navbar-brand">Product List</span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <button className="btn btn-outline-primary"><Link to={"/add"}>Create</Link> </button>
+                        </li>
+                        <li className="nav-item">
+                           <DeleteButton />
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
+
     )
 }
