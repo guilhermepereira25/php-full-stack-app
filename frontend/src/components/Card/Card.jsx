@@ -51,22 +51,29 @@ function MyCard(props) {
 }
 
 export default function Card(props) {
-    const contents = props.data
+    const {data} = props
 
-    return (
-        <div className="container mb-3 mt-3">
-            <div className="row">
-                {contents.map(content => (
-                    <MyCard
-                        key={content.id} sku={content.sku} name={content.name} price={content.price} type={content.type} value={content.value} id={content.id}
-                    />
-                ))}
-            </div>
-            <div className="row mt-3">
-                <div className="col">
-                    <MyCard />
+    const renderCards = () => {
+        const rows = [];
+
+        for (let i = 0; i < data.length; i += 3) {
+            const row = data.slice(i, i + 3);
+            rows.push(row);
+        }
+
+        return rows.map((row, index) => (
+            <div key={index} className={"row"}>
+                <div className={"row"}>
+                    {row.map((content) => (
+                        <MyCard
+                            key={content.id} sku={content.sku} name={content.name} price={content.price}
+                            type={content.type} value={content.value} id={content.id} state={props.state}
+                        />
+                    ))}
                 </div>
             </div>
-        </div>
-    )
+        ));
+    };
+
+    return <div className="container mb-3 mt-3">{renderCards()}</div>;
 }

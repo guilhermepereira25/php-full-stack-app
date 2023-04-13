@@ -13,8 +13,8 @@ export default function Header() {
                 </button>
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <button className="btn btn-outline-primary"><Link to={"/add"}>Create</Link> </button>
+                        <li className="nav-item me-1">
+                            <button className="btn btn-outline-secondary" style={{width: 100}}><Link to={"/add"}>Create</Link> </button>
                         </li>
                         <li className="nav-item">
                            <DeleteButton />
