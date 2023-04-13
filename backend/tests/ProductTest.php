@@ -72,4 +72,9 @@ class ProductTest extends TestCase
         $response = $psr18Client->sendRequest($request);
         $this->assertEquals(403, $response->getStatusCode(), 'Status code is not 403');
     }
+
+    public function test_delete_products()
+    {
+
+    }
 }

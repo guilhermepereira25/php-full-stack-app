@@ -4,7 +4,6 @@ namespace Application\Source\Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use RuntimeException;
@@ -41,6 +40,14 @@ class ProductRepository
 
     public function delete($id)
     {
+        $sql = "DELETE FROM product WHERE id in (:id)";
+        $stmt = $this->coon->prepare($sql);
+        $stmt->bindValue(':id', $id);
 
+        try {
+            $stmt->executeQuery();
+        } catch (ORMException $exception) {
+            throw new RuntimeException('Error deleting product in db' . '-', $exception->getMessage(), $exception->getCode());
+        }
     }
 }

@@ -76,16 +76,16 @@ class ProductController
 
     public function delete(ServerRequestInterface $request): ResponseInterface
     {
-        $queryParams = $request->getQueryParams();
-        $code = http_response_code(400);
+        $queryParams = $request->getParsedBody();
+        $this->setCode(400);
 
-        if (isset($queryParams['id']) && is_int($queryParams['id'])) {
-            $this->productRepository->delete($queryParams['id']);
-            $code = http_response_code(200);
+        if (isset($queryParams['ids']) && is_int($queryParams['ids'])) {
+            $this->productRepository->delete($queryParams['ids']);
+            $this->setCode(200);
             $body = Stream::create(json_encode(['success' => true]));
         }
 
-        return new Response($code, ['Content-Type' => 'application/json'], is_null($body) ? Stream::create(json_encode(['success' => false ])) : $body);
+        return new Response($this->getCode(), ['Content-Type' => 'application/json'], is_null($body) ? Stream::create(json_encode(['success' => false ])) : $body);
     }
 
     private function setCode($code)
