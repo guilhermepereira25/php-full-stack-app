@@ -1,8 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import DeleteButton from "./Button";
 
-export default function Header() {
+export default function Header(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -17,7 +16,7 @@ export default function Header() {
                             <button className="btn btn-outline-secondary" style={{width: 100}}><Link to={"/add"}>Create</Link> </button>
                         </li>
                         <li className="nav-item">
-                           <DeleteButton />
+                            <button className="btn btn-outline-danger" onClick={() => props.handleDeleteSelected()}>Mass Delete</button>
                         </li>
                     </ul>
                 </div>
