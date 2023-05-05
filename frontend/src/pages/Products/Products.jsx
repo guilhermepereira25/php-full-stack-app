@@ -6,7 +6,7 @@ import Card from "../../components/Card/Card";
 
 function Products() {
 	const [products, setProducts] = useState([]);
-	const [showButton, setShowButton] = useState(false)
+	const [selectIds, setSelectIds] = useState([])
 
 	useEffect(() => {
 		fetch('http://localhost:80/api/products', {
@@ -19,11 +19,37 @@ function Products() {
 		});
 	}, []);
 
+	const handleSelectedIds = (id) => {
+		console.log(selectIds)
+		if (selectIds.includes(id)) {
+			setSelectIds(selectIds.filter(item => item !== id))
+		} else {
+			setSelectIds([...selectIds, id])
+		}
+	}
+
+	const handleDeleteSelected = () => {
+		console.log(selectIds)
+
+		fetch('http://localhost:80/api/products/delete', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					ids: selectIds
+				})
+			}
+		)
+		.then(response => response.json())
+		.then(data => console.log(data))
+	}
+
 	return (
 		<>
-			<Header showButton={showButton} />
+			<Header handleDeleteSelected={handleDeleteSelected} />
 
-			<Card data={products} state={showButton} />
+			<Card data={products} handleSelectedIds={handleSelectedIds} />
 
 			<Footer />
 		</>

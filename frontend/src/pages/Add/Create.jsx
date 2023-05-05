@@ -1,11 +1,38 @@
 import React, {useState} from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import {useNavigate} from "react-router-dom";
 
-function CdComponent() {
+function FurnitureComponent({func}) {
+    const [inputValue, setInputValue] = useState({
+        height: "",
+        width: "",
+        length: ""
+    })
+
+    const handleChange = (e) => {
+        setInputValue({
+            ...inputValue,
+            [e.target.name]: e.target.value
+        })
+
+        if (inputValue.width !== "" && inputValue.length !== "" && inputValue.height !== "") {
+            let calc = inputValue.height * inputValue.width * inputValue.length
+
+            func(calc)
+        }
+    }
+
     return (
         <>
-            <h1>Hello, world reaaact</h1>
+            <label className={"form-label"} htmlFor={"height"}>Height</label>
+            <input type={"number"} id={"height"} name={"height"} value={inputValue.height} className={"form-control"} onChange={(e) => handleChange(e)} />
+
+            <label className={"form-label"} htmlFor={"width"}>Width</label>
+            <input type={"number"} id={"width"} name={"width"} value={inputValue.width} className={"form-control"} onChange={(e) => handleChange(e)} />
+
+            <label className={"form-label"} htmlFor={"length"}>Length</label>
+            <input type={"number"} id={"length"} name={"length"} value={inputValue.length} className={"form-control"} onChange={(e) => handleChange(e)} />
         </>
     )
 }
@@ -14,7 +41,7 @@ function Input({id, name, value, onchange, labelText, type}) {
     return (
         <>
             <label htmlFor={name} className="form-label">{labelText}</label>
-            <input type={type} name={name} className="form-control" id={id} value={value} onChange={((e) => onchange(e))} />
+            <input type={type} required={true} name={name} className="form-control" id={id} value={value} onChange={((e) => onchange(e))} />
         </>
     )
 }
@@ -35,20 +62,50 @@ function MyForm(props) {
         })
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const action = e.target.action
+    const navigate = useNavigate()
 
-        fetch(action, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ formData })
-        })
-            .then(response => response.json())
-            .then(data => console.log(data.response))
-            .catch(error => console.error(error))
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        try {
+            const url = fetch(event.target.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sku: formData.sku,
+                    name: formData.name,
+                    price: formData.price,
+                    type: formData.type,
+                    value: formData.value
+                })
+            })
+
+            url.then((response) => {
+                if (!response.status !== 201) {
+                    throw new Error(`Http error: ${response.status}`)
+                }
+                
+                return response.json()
+            }).then((data) => {
+                console.log(data)
+
+                if (data.success) {
+                    navigate('/')
+                }
+            })
+        } catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    const calcFurniture = (result) => {
+        setFormData({
+                ...formData,
+                value: result
+            }
+        )
     }
 
     const renderComponent = () => {
@@ -56,11 +113,11 @@ function MyForm(props) {
 
         switch (type) {
             case 'cd':
-                return <CdComponent />;
+                return <Input id={"size"} name={"value"} value={formData.value} type={"text"} labelText={"Describe your cd product"} onchange={handleChange} />
             case 'book':
-                return;
+                return <Input id={"weight"} name={"value"} value={formData.value} type={"number"} labelText={"Describe your book in kg"} onchange={handleChange} />
             case 'furniture':
-                break;
+                return <FurnitureComponent func={calcFurniture}  />
             default:
                 break;
         }
@@ -76,12 +133,12 @@ function MyForm(props) {
 
                         <Input name={"price"} id={"price"} type={"number"} value={formData.price} onchange={handleChange} labelText={"Price"} />
 
-                        <label htmlFor={"productType"} className={"form-label"}>Tu é meio burro hein paizao</label>
+                        <label htmlFor={"productType"} className={"form-label"}>Type</label>
                             <select name={"type"} id={"productType"} className={"form-select"} onChange={(e) => handleChange(e)}>
-                                <option selected>Selecione o tipo</option>
-                                <option value={'cd'}>Cd</option>
-                                <option value={'book'}>Book</option>
-                                <option value={'furniture'}>Furniture</option>
+                                <option defaultValue={"null"}>Choose the type</option>
+                                <option id={"dvd"} value={'cd'}>Cd</option>
+                                <option id={"book"} value={'book'}>Book</option>
+                                <option id={"furniture"} value={'furniture'}>Furniture</option>
                             </select>
 
                         {renderComponent()}
