@@ -42,7 +42,13 @@ function Products() {
 			}
 		)
 		.then(response => response.json())
-		.then(data => console.log(data))
+		.then(data => {
+			if (data.success) {
+				setTimeout(() => {
+					window.location.reload()
+				}, 3000)
+			}
+		})
 	}
 
 	return (

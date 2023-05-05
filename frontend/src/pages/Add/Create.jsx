@@ -83,14 +83,12 @@ function MyForm(props) {
             })
 
             url.then((response) => {
-                if (!response.status !== 201) {
+                if (response.status !== 201) {
                     throw new Error(`Http error: ${response.status}`)
                 }
                 
                 return response.json()
             }).then((data) => {
-                console.log(data)
-
                 if (data.success) {
                     navigate('/')
                 }
