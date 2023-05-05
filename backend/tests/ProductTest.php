@@ -3,6 +3,7 @@
 namespace Application\Test;
 
 use Buzz\Client\Curl;
+use http\Exception\RuntimeException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -75,6 +76,20 @@ class ProductTest extends TestCase
 
     public function test_delete_products()
     {
+        $ids = [1, 2, 3, 5];
 
+        $serverRequest = new Psr17Factory();
+        $psr18Client = new Curl($serverRequest);
+
+        $data = http_build_query($ids);
+        $request = $serverRequest->createRequest("POST", $this->baseUrl)->withHeader('Content-Type', 'application/x-www-form-urlencoded')->withBody($serverRequest->createStream($data));
+
+        try {
+            $response = $psr18Client->sendRequest($request);
+        } catch (ClientExceptionInterface $exception) {
+            throw new RuntimeException("Error calling api" . $exception->getMessage(), $exception->getCode());
+        }
+
+        $this->assertEquals(200, $response->getStatusCode(), 'Status code is not 200');
     }
 }

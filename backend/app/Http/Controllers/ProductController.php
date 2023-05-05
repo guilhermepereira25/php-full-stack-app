@@ -39,11 +39,14 @@ class ProductController
      */
     public function create(ServerRequestInterface $request): ResponseInterface
     {
+        header('Accept: application/json');
+        $body = null;
+
         if ($request->getMethod() !== 'POST') {
             $this->setCode(405);
             $body = Stream::create(json_encode(['success' => false]));
         } else {
-            $post = $request->getParsedBody();
+            $post = json_decode(file_get_contents('php://input'), true);
 
             $form = new FormProduct();
             $validate = $form->validate($post);
@@ -53,10 +56,10 @@ class ProductController
 
                 if (is_null($sku)) {
                     $resultSet = $this->productRepository->create(
-                        $post['sku'], $post['nome'], $post['price'], $post['type'], $post['value']
+                        $post['sku'], $post['name'], $post['price'], $post['type'], $post['value']
                     );
                     $this->setCode(201);
-                    $body = Stream::create(json_encode($resultSet));
+                    $body = Stream::create(json_encode(['result' => $resultSet, 'success' => true]));
                 }
             } else {
                 $this->setCode(403);
@@ -64,28 +67,25 @@ class ProductController
             }
         }
 
-        return new Response($this->getCode(), ['Content-Type' => 'application/json'], $body);
+        return new Response($this->getCode(), ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*'], $body);
     }
 
-    public function update(ServerRequestInterface $request): ResponseInterface
+    public function delete(ServerRequestInterface $request)
     {
-        $request = json_encode($request->getQueryParams());
-
-        return new Response(200, [], Stream::create($request));
-    }
-
-    public function delete(ServerRequestInterface $request): ResponseInterface
-    {
-        $queryParams = $request->getParsedBody();
+        $post = json_decode(file_get_contents('php://input'), true);
         $this->setCode(400);
+        $body = null;
 
-        if (isset($queryParams['ids']) && is_int($queryParams['ids'])) {
-            $this->productRepository->delete($queryParams['ids']);
+        if (isset($post['ids'])) {
+            $this->productRepository->delete($post['ids']);
             $this->setCode(200);
             $body = Stream::create(json_encode(['success' => true]));
+        } else {
+            $this->setCode(403);
+            $body = Stream::create(json_encode(['message' => 'Invalid params']));
         }
 
-        return new Response($this->getCode(), ['Content-Type' => 'application/json'], is_null($body) ? Stream::create(json_encode(['success' => false ])) : $body);
+        return new Response($this->getCode(), ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*'], $body);
     }
 
     private function setCode($code)
