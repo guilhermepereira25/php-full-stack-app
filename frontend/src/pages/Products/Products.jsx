@@ -29,8 +29,6 @@ function Products() {
 	}
 
 	const handleDeleteSelected = () => {
-		console.log(selectIds)
-
 		fetch('http://localhost:80/api/products/delete', {
 				method: 'POST',
 				headers: {
