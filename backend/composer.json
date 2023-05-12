@@ -15,9 +15,11 @@
     "psr/http-server-handler": "^1.0",
     "php-di/php-di": "*",
     "vlucas/phpdotenv": "^5.5",
-    "kriswallsmith/buzz": "^1.2"
+    "kriswallsmith/buzz": "^1.2",
+    "monolog/monolog": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "heroku/heroku-buildpack-php": "^231.0"
   }
 }
