@@ -4,8 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Application\Source\Http\Factorys\Psr7FactoryCreator;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+if (!$prod = getenv('production', false)) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+}
 
 $routes = require __DIR__ . '/../config/api.php';
 
