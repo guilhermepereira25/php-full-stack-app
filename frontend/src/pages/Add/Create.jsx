@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import {useNavigate} from "react-router-dom";
+import {apiUrl} from "../../constraints";
 
 function FurnitureComponent({func}) {
     const [inputValue, setInputValue] = useState({
@@ -68,7 +69,7 @@ function MyForm(props) {
         event.preventDefault()
 
         try {
-            const url = fetch(event.target.action, {
+            const url = fetch(apiUrl.url.API_URL + '/api/products/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -153,7 +154,7 @@ export default function Create() {
         <div className="container">
             <Header />
 
-            <MyForm action="http://localhost:80/api/products/create" />
+            <MyForm />
 
             <Footer />
         </div>

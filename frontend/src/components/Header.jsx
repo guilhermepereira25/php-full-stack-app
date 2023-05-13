@@ -13,10 +13,10 @@ export default function Header(props) {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item me-1">
-                            <Link to={"/add"}><button className="btn btn-outline-secondary" style={{width: 100}}>Create</button></Link>
+                            <Link to={"/add"}><button className="btn btn-outline-secondary" style={{width: 100}}>ADD</button></Link>
                         </li>
                         <li className="nav-item">
-                            <button className="btn btn-outline-danger" onClick={() => props.handleDeleteSelected()}>Mass Delete</button>
+                            <button className="btn btn-outline-danger" onClick={() => props.handleDeleteSelected()}>MASS DELETE</button>
                         </li>
                     </ul>
                 </div>

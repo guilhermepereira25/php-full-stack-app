@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Card from "../../components/Card/Card";
+import {apiUrl} from "../../constraints";
 
 function Products() {
+	console.log(apiUrl.url.API_URL)
 	const [products, setProducts] = useState([]);
 	const [selectIds, setSelectIds] = useState([])
 
 	useEffect(() => {
-		fetch('http://localhost:80/api/products', {
+		fetch(apiUrl.url.API_URL + '/api/products', {
 				method: "GET"
 			}
 		)
@@ -20,7 +22,6 @@ function Products() {
 	}, []);
 
 	const handleSelectedIds = (id) => {
-		console.log(selectIds)
 		if (selectIds.includes(id)) {
 			setSelectIds(selectIds.filter(item => item !== id))
 		} else {
@@ -29,7 +30,8 @@ function Products() {
 	}
 
 	const handleDeleteSelected = () => {
-		fetch('http://localhost:80/api/products/delete', {
+
+		fetch(apiUrl.url.API_URL + '/delete', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
