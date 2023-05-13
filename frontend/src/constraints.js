@@ -10,4 +10,4 @@ const development = {
     }
 }
 
-export const apiUrl = process.env === 'production' ? prod : development
+export const apiUrl = process.env.NODE_ENV === 'production' ? prod : development
