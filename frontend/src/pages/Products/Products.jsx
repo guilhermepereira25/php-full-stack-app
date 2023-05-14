@@ -30,8 +30,7 @@ function Products() {
 	}
 
 	const handleDeleteSelected = () => {
-
-		fetch(apiUrl.url.API_URL + '/delete', {
+		fetch(apiUrl.url.API_URL + '/api/products/delete', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

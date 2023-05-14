@@ -25,8 +25,6 @@ export default function Card(props) {
     const [ids, setIds] = useState([])
 
     const handleMassDelete = (id) => {
-        console.log(ids)
-
         if (ids.includes(id)) {
             setIds(ids.filter(item => item !== id))
         } else {
