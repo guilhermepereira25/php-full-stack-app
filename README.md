@@ -21,8 +21,8 @@ This command will build and run the Docker images and start the containers in th
 5. The MySQL database is running on localhost:3306. The database credentials are:
 
 ```
-	DB_USER = user <br>
-	DB_PASSWORD = user <br>
+	DB_USER = user 
+	DB_PASSWORD = user 
 ```
 
 You can modify these credentials in the `.env` file located in the backend folder.
