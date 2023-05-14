@@ -124,7 +124,7 @@ function MyForm(props) {
 
     return (
             <div className={"container"}>
-                <form action={props.action} id={"product-form"} method="POST" onSubmit={(event) => handleSubmit(event)}>
+                <form action={props.action} id={"product_form"} method="POST" onSubmit={(event) => handleSubmit(event)}>
                     <div className="mb-3">
                         <Input name={"sku"} id={"sku"} type={"text"} value={formData.sku} onchange={handleChange} labelText={"SKU (unique)"} />
 
