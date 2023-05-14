@@ -6,7 +6,6 @@ import Card from "../../components/Card/Card";
 import {apiUrl} from "../../constraints";
 
 function Products() {
-	console.log(process.env)
 	const [products, setProducts] = useState([]);
 	const [selectIds, setSelectIds] = useState([])
 
