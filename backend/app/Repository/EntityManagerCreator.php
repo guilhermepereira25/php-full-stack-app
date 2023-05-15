@@ -16,15 +16,14 @@ class EntityManagerCreator
     {
         $paths = [__DIR__ . '/../Models'];
 
-        if ($url = env('CLEARDB_DATABASE_URL', false)) {
-            $parts = parse_url($url);
-            $host = $parts["host"];
+        if (getenv('CLEARDB_DATABASE_URL', false)) {
+            $host = getenv('DB_HOST');
             $port = getenv('DB_PORT');
-            $user = $parts["user"];
-            $password = $parts["pass"];
-            $dbname = substr($parts["path"], 1);
+            $user = getenv('DB_USER');
+            $password = getenv('DB_PASSWORD');
+            $dbname = getenv('DB_DATABASE');
         } else {
-            $host = $_ENV['DB_PORT'];
+            $host = $_ENV['DB_HOST'];
             $port = $_ENV['DB_PORT'];
             $user = $_ENV['DB_USERNAME'];
             $password = $_ENV['DB_PASSWORD'];

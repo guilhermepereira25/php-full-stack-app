@@ -42,6 +42,10 @@ class ProductController
         header('Accept: application/json');
         $body = null;
 
+        if ($request->getMethod() == 'OPTIONS') {
+            return new Response(http_response_code(201), ['Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => 'POST, OPTIONS']);
+        }
+
         if ($request->getMethod() !== 'POST') {
             $this->setCode(405);
             $body = Stream::create(json_encode(['success' => false]));
