@@ -43,7 +43,11 @@ class ProductController
         $body = null;
 
         if ($request->getMethod() == 'OPTIONS') {
-            return new Response(http_response_code(201), ['Access-Control-Allow-Origin' => '*', 'Access-Control-Allow-Methods' => 'POST, OPTIONS']);
+            return new Response(http_response_code(200), [
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods' => 'POST, OPTIONS',
+                'Access-Control-Allow-Headers' => 'Content-Type, X-Requested-With'
+            ]);
         }
 
         if ($request->getMethod() !== 'POST') {

@@ -54,7 +54,7 @@ class FormProduct
                 break;
             case 'allowed_types':
                 switch ($value) {
-                    case 'cd':
+                    case 'DVD':
                     case 'book':
                     case 'furniture':
                         break;
