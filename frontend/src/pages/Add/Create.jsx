@@ -111,7 +111,7 @@ function MyForm(props) {
         const type = formData.type
 
         switch (type) {
-            case 'cd':
+            case 'DVD':
                 return <Input id={"size"} name={"value"} value={formData.value} type={"text"} labelText={"Describe your cd product"} onchange={handleChange} />
             case 'book':
                 return <Input id={"weight"} name={"value"} value={formData.value} type={"number"} labelText={"Describe your book in kg"} onchange={handleChange} />
@@ -135,7 +135,7 @@ function MyForm(props) {
                         <label htmlFor={"productType"} className={"form-label"}>Type</label>
                             <select name={"type"} id={"productType"} className={"form-select"} onChange={(e) => handleChange(e)}>
                                 <option defaultValue={"null"}>Choose the type</option>
-                                <option id={"dvd"} value={'cd'}>Cd</option>
+                                <option id={"dvd"} value={'DVD'}>DVD</option>
                                 <option id={"book"} value={'book'}>Book</option>
                                 <option id={"furniture"} value={'furniture'}>Furniture</option>
                             </select>
