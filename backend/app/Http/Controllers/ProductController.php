@@ -17,12 +17,22 @@ class ProductController
 {
     private EntityRepository $repository;
     private ProductRepository $productRepository;
-    private int $code;
+    private ?int $code = null;
 
     public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository)
     {
         $this->repository = $entityManager->getRepository(Product::class);
         $this->productRepository = $productRepository;
+    }
+
+    private function setCode($code)
+    {
+        $this->code = http_response_code($code);
+    }
+
+    private function getCode()
+    {
+        return $this->code;
     }
 
     public function index(ServerRequestInterface $request): ResponseInterface
@@ -80,6 +90,14 @@ class ProductController
 
     public function delete(ServerRequestInterface $request)
     {
+        if ($request->getMethod() == 'OPTIONS') {
+            return new Response(http_response_code(200), [
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods' => 'POST, OPTIONS',
+                'Access-Control-Allow-Headers' => 'Content-Type, X-Requested-With'
+            ]);
+        }
+
         $post = json_decode(file_get_contents('php://input'), true);
         $this->setCode(400);
         $body = null;
@@ -94,15 +112,5 @@ class ProductController
         }
 
         return new Response($this->getCode(), ['Content-Type' => 'application/json', 'Access-Control-Allow-Origin' => '*'], $body);
-    }
-
-    private function setCode($code)
-    {
-        $this->code = http_response_code($code);
-    }
-
-    private function getCode()
-    {
-        return $this->code;
     }
 }

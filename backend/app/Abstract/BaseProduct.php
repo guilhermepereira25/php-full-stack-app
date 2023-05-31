@@ -2,7 +2,6 @@
 
 namespace Application\Source\Abstract;
 
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 
 #[MappedSuperclass]

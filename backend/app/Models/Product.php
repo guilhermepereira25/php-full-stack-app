@@ -3,6 +3,7 @@
 namespace Application\Source\Models;
 
 use Application\Source\Abstract\BaseProduct;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -26,6 +27,8 @@ class Product extends BaseProduct implements \JsonSerializable
     protected string $type;
     #[Column(type: Types::FLOAT)]
     protected float $value;
+    #[Column]
+    public $created_at;
 
     public function getId(): int
     {
@@ -86,6 +89,11 @@ class Product extends BaseProduct implements \JsonSerializable
    {
        $this->value = $value;
    }
+
+   public function getCreatedAt()
+    {
+        return $this->created_at; 
+    }
 
     public function jsonSerialize(): mixed
     {
