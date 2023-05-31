@@ -79,7 +79,7 @@ function MyForm(props) {
                     name: formData.name,
                     price: formData.price,
                     type: formData.type,
-                    value: formData.value
+                    value: parseFloat(formData.value)
                 })
             })
 
