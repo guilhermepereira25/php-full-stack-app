@@ -87,7 +87,7 @@ class ProductTest extends TestCase
         try {
             $response = $psr18Client->sendRequest($request);
         } catch (ClientExceptionInterface $exception) {
-            throw new RuntimeException("Error calling api" . $exception->getMessage(), $exception->getCode());
+            throw new \RuntimeException("Error calling api" . $exception->getMessage(), $exception->getCode());
         }
 
         $this->assertEquals(200, $response->getStatusCode(), 'Status code is not 200');
